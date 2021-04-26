@@ -22,7 +22,9 @@ const viewOptions = [
     "Update Employee",
     "Exit"
 ]
-const start = () => {
+
+
+function findSchemaInfo () {
     inquirer
       .prompt({
         name: 'firstOption',
@@ -55,11 +57,58 @@ const start = () => {
       });
   };
 
+  function viewDepartment() {
+    var dbInfo = "SELECT * FROM department";
+    connection.query(dbInfo, function (err, result) {
+        if (err) throw err;
+        console.table(result)
+        findSchemaInfo();
+    })
+}
+
+function viewEmployee() {
+    var dbInfo = "SELECT first_name, last_name, title, salary FROM employee ";
+    dbInfo += "LEFT JOIN role ";
+    dbInfo += "ON employee.role_id = role.id"
+    connection.query(dbInfo, function (err, result) {
+        if (err) throw err;
+
+        console.table(result)
+        findSchemaInfo();
+    })
+}
+
+function viewRole() {
+    var dbInfo = "SELECT * FROM role";
+    connection.query(dbInfo, function (err, result) {
+        if (err) throw err;
+
+        console.table(result)
+        findSchemaInfo();
+    })
+}
+
+
+const updateEmployee = () => {
+
+    function updateEmployee() {
+        inquirer
+            .prompt({
+                name: "action",
+                type: "list",
+                message: "Which employee do you want to update?",
+                choices: employeeOptions
+            })
+           
+    }
+    updateEmployee();  
+}
+
 
   // connect to the mysql server and sql database
   connection.connect((err) => {
     if (err) throw err;
     // run the start function after the connection is made to prompt the user
-    start();
+    findSchemaInfo();
   });
   
