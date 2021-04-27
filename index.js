@@ -18,7 +18,12 @@ const viewOptions = [
 ]
 
 const employeeList = [
-    ""
+    "Emerson Headphones",
+    "Emerson the Second Headphones",
+    "Emerson the Third Headphones",
+    "Emerson the Fourth Headphones",
+    "Emerson the Fifth Headphones",
+    "Exit"
 ]
 
 const updateOptions = [
