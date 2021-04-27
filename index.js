@@ -1,6 +1,8 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const consoletable = require('console.table');
 
+// Connection
 const connection = mysql.createConnection({
     host: 'localhost',
     port: 3306,
@@ -18,6 +20,7 @@ const viewOptions = [
     "Exit"
 ]
 
+// Function to run CLI via inquirer and mysql
 function findSchemaInfo () {
     inquirer
       .prompt({
@@ -48,7 +51,7 @@ function findSchemaInfo () {
             case viewOptions[4]:
                 addEmployee();
                 break;
-
+// Kills connection if user hits exit
             case viewOptions[5]:
                 connection.end();
                 break
@@ -57,6 +60,7 @@ function findSchemaInfo () {
   };
 
   function viewDepartment() {
+    // pulls from mysql DB everything from department
     var dbInfo = "SELECT * FROM department";
     connection.query(dbInfo, function (err, result) {
         if (err) throw err;
@@ -66,6 +70,7 @@ function findSchemaInfo () {
 }
 
 function viewEmployee() {
+  // pulls different information from multiple tables and joins them together
     var dbInfo = "SELECT first_name, last_name, title, salary FROM employee ";
     dbInfo += "LEFT JOIN role ";
     dbInfo += "ON employee.role_id = role.id"
@@ -78,6 +83,7 @@ function viewEmployee() {
 }
 
 function viewRole() {
+  // pulls all information from rol table
     var dbInfo = "SELECT * FROM role";
     connection.query(dbInfo, function (err, result) {
         if (err) throw err;
@@ -86,6 +92,7 @@ function viewRole() {
         findSchemaInfo();
     })
 }
+// IN PROGRESS
 // const updateEmployee = () => {
 //     // query the database for all items being auctioned
 //     connection.query('SELECT * FROM employee', (err, results) => {
@@ -158,6 +165,7 @@ const addEmployee = () => {
       .then((answer) => {
 
         connection.query(
+          // Adds answers to employee table
           'INSERT INTO employee SET ?',
           {
             first_name: answer.firstName,

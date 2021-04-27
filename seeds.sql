@@ -1,5 +1,6 @@
 USE emp_db;
 
+-- Dummy data for database to test it
 INSERT into department (name)
 VALUES ("Sales"), ("Engineering"), ("Finance"), ("Human Resources"), ("Organizational Leadership");
 select * from department;
