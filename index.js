@@ -14,24 +14,9 @@ const viewOptions = [
     "View Roles",
     "View Employees",
     "Update Employee",
+    "Add Employee",
     "Exit"
 ]
-
-const employeeList = [
-    "Emerson Headphones",
-    "Emerson the Second Headphones",
-    "Emerson the Third Headphones",
-    "Emerson the Fourth Headphones",
-    "Emerson the Fifth Headphones",
-    "Exit"
-]
-
-const updateOptions = [
-    "First Name",
-    "Last Name",
-    "Role",
-    "Exit"
-];
 
 function findSchemaInfo () {
     inquirer
@@ -58,8 +43,13 @@ function findSchemaInfo () {
 
             case viewOptions[3]:
                 updateEmployee();
+                break;
+            
+            case viewOptions[4]:
+                addEmployee();
+                break;
 
-            case updateOptions[4]:
+            case viewOptions[5]:
                 connection.end();
                 break
         }
@@ -96,28 +86,96 @@ function viewRole() {
         findSchemaInfo();
     })
 }
+// const updateEmployee = () => {
+//     // query the database for all items being auctioned
+//     connection.query('SELECT * FROM employee', (err, results) => {
+//       if (err) throw err;
+//       // once you have the items, prompt the user for which they'd like to bid on
+//       inquirer
+//         .prompt([
+//           {
+//             name: 'update1',
+//             type: 'rawlist',
+//             choices() {
+//               const choiceArray = [];
+//               results.forEach(({ first_name }) => {
+//                 choiceArray.push(first_name);
+//               });
+//               return choiceArray;
+//             },
+//             message: 'Who would you like to update?',
+//           },
+//           {
+//             name: 'update2',
+//             type: 'input',
+//             message: 'What Role?',
+//           },
+//         ])
+//         .then((answer) => {
+//           let updatedEmployee;
+//           results.forEach((item) => {
+//             if (employee.first_name === answer.choice) {
+//               updatedEmployee = first_name;
+            
+//           });
 
+//           connection.query(
+//             'UPDATE employee SET ? WHERE ?',
+//             [
+//               {
+//                 role_id: answer.update2,
+//               },
+//             ],
+//             (error) => {
+//               if (error) throw err;
+//               console.log('Update Successful!');
+//               findSchemaInfo();
+//             }
+//     });
+// });
+// };
 
-const updateEmployee = () => {
+const addEmployee = () => {
+    // prompt for info about the item being put up for auction
+    inquirer
+      .prompt([
+        {
+          name: 'firstName',
+          type: 'input',
+          message: 'First name?',
+        },
+        {
+          name: 'lastName',
+          type: 'input',
+          message: 'Last name?',
+        },
+        {
+          name: 'role',
+          type: 'input',
+          message: 'Role ID?',
+        },
+      ])
+      .then((answer) => {
 
-    function updateEmployee() {
-        inquirer
-            .prompt({
-                name: "action",
-                type: "list",
-                message: "Which employee do you want to update?",
-                choices: employeeList
-            })
-           
+        connection.query(
+          'INSERT INTO employee SET ?',
+          {
+            first_name: answer.firstName,
+            last_name: answer.lastName,
+            role_id: answer.role,
+          },
+          (err) => {
+            if (err) throw err;
+            console.log('Employee Added!');
+            findSchemaInfo();
+          }
+        );
+      });
     }
-    updateEmployee();  
-}
-
 
   // connect to the mysql server and sql database
   connection.connect((err) => {
     if (err) throw err;
-    // run the start function after the connection is made to prompt the user
+    // run the function after the connection is made to prompt the user
     findSchemaInfo();
   });
-  
