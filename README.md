@@ -5,11 +5,11 @@ I created an employee tracker using inquirer js, MySql, and Console.Table. Inqui
 
 Image of Project in Action
 
-![ExampleEmployeeTracker](sqlHW.png)
+![ExampleEmployeeTracker](images/sqlHW.png)
 
 Image of Database
 
-![ExampleSQLDB](mysqldb.png)
+![ExampleSQLDB](images/mysqldb.png)
 
 
 ## Installation
