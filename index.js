@@ -3,14 +3,8 @@ const inquirer = require('inquirer');
 
 const connection = mysql.createConnection({
     host: 'localhost',
-  
-    // Your port; if not 3306
     port: 3306,
-  
-    // Your username
     user: 'root',
-  
-    // Your password
     password: 'hanah.rose1!',
     database: 'emp_db',
   });
@@ -23,6 +17,16 @@ const viewOptions = [
     "Exit"
 ]
 
+const employeeList = [
+    ""
+]
+
+const updateOptions = [
+    "First Name",
+    "Last Name",
+    "Role",
+    "Exit"
+];
 
 function findSchemaInfo () {
     inquirer
@@ -97,7 +101,7 @@ const updateEmployee = () => {
                 name: "action",
                 type: "list",
                 message: "Which employee do you want to update?",
-                choices: employeeOptions
+                choices: employeeList
             })
            
     }
